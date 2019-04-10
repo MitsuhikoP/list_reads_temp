@@ -7,22 +7,24 @@ def main():
     import os
     import sys
     import gzip
+    import re
     from argparse import ArgumentParser,FileType
     parser=ArgumentParser(description="list up the number of reads of all files in the directory.",usage="python3 list_reads.py -o output_file.txt dir [dir...]")
-    parser.add_argument("dirs", nargs="+", type=str, help="directory names")
-    parser.add_argument("-o", type=str, default=sys.stdout, help="output file")
+    parser.add_argument("dirs", nargs="+", type=str, metavar="str", help="directory names")
+    parser.add_argument("-o", type=FileType("w"), default=sys.stdout, help="output file name (default: stdout)")
+    
     args = parser.parse_args()
 
     labels="sample"
     outs={}
 
     for dir in args.dirs:
-        labels += "\t" + dir.split("/")[-1]
+        labels += "\t" + dir
         files=os.listdir(dir)
         out={}
         for file in sorted(files):
-#            smpl=file.split("_L001_R1_001")[0].split("_L001_R2_001")[0]
-            smpl=file.split("_")[0]
+            smpl=file.split(".")[0]
+            smpl=re.split("_S\d+_L001_R[12]_001", file)[0]
             
             faq=""
             ftype=""
@@ -41,20 +43,20 @@ def main():
             faqs={}
             ID=""
             if ftype=="fastq":
-                for line in faq:
-                    ID=line.rstrip()
-                    faqs[ID]=faq.readline()
-                    faqs[ID]+=faq.readline()
-                    faqs[ID]+=faq.readline()
+                ls, mod = divmod(len(faq.readlines()),4)
+                if mod != 0:
+                    print(file, "is illegal line numbers.")
+                    sys.exit(1)
             elif ftype=="fasta":
-                for line in faq:
-                    ID=line.rstrip()
-                    faqs[ID]=faq.readline()
+                ls, mod = divmod(len(faq.readlines()),2)
+                if mod != 0:
+                    print(file, "is illegal line numbers.")
+                    sys.exit(1)
                     
             if smpl in out:
-                out[smpl] += len(faqs)
+                out[smpl] += ls
             else:
-                out[smpl] = len(faqs)
+                out[smpl] = ls
 
         for o in out:
             if smpl in outs:
@@ -66,9 +68,8 @@ def main():
     output=labels+"\n"
     for out in sorted(outs.keys()):
         output+=out+"\t"+outs[out]+"\n"
-    fhw=open(args.o,"w")
+    fhw=args.o
     fhw.write(output)
     fhw.close()
     
 if __name__ == '__main__': main()
-
