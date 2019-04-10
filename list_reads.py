@@ -48,7 +48,7 @@ def main():
                     faqs[ID]+=faq.readline()
             elif ftype=="fasta":
                 for line in faq:
-                    ID=line.tstrip()
+                    ID=line.rstrip()
                     faqs[ID]=faq.readline()
                     
             if smpl in out:
