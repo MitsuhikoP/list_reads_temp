@@ -8,7 +8,7 @@ def main():
     import sys
     import gzip
     from argparse import ArgumentParser,FileType
-    parser=ArgumentParser(description="list up the number of reads of all files in the directory.",usage="python3 list_reads.py -o output_file.txt dir [dir...]")
+    parser=ArgumentParser(description="list up the number of reads of all files in the directory.",usage="list_reads -o output_file.txt dir [dir...]")
     parser.add_argument("dirs", nargs="+", type=str, help="directory names")
     parser.add_argument("-o", type=str, default=sys.stdout, help="output file")
     args = parser.parse_args()
