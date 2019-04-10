@@ -24,7 +24,7 @@ def main():
         out={}
         for file in sorted(files):
             smpl=file.split(".")[0]
-            smpl=re.split("_S\d+_L001_R[12]_001", file)[0]
+            smpl=re.split("_S\d+_L001_R[12]_001", smpl)[0]
             
             faq=""
             ftype=""
