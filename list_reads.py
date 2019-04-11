@@ -8,16 +8,17 @@ def main():
     import sys
     import gzip
     import re
-    from argparse import ArgumentParser,FileType
-    parser=ArgumentParser(description="list up the number of reads of all files in the directory.",usage="python3 list_reads.py -o output_file.txt dir [dir...]")
-    parser.add_argument("dirs", nargs="+", type=str, metavar="str", help="directory names")
-    parser.add_argument("-o", type=FileType("w"), default=sys.stdout, help="output file name (default: stdout)")
+    import subprocess
     
+    from argparse import ArgumentParser
+    parser=ArgumentParser(description="list up the number of reads of all files in the directory.",usage="python3 list_reads.py -o output_file_root dir [dir...]", epilog="OUTPUT: MIGreads.txt, MIGreads.pdf")
+    parser.add_argument("dirs", nargs="+", type=str, metavar="str", help="directory names")
+    parser.add_argument("-o", type=str, default="MIGreads", help="output file root name (default: MIGreads)")
+    parser.add_argument("-s", type=float, default=7, help="output pdf size (default: 7)")    
     args = parser.parse_args()
 
     labels="sample"
     outs={}
-
     for dir in args.dirs:
         labels += "\t" + dir
         files=os.listdir(dir)
@@ -52,7 +53,7 @@ def main():
                 if mod != 0:
                     print(file, "is illegal line numbers.")
                     sys.exit(1)
-                    
+                
             if smpl in out:
                 out[smpl] += ls
             else:
@@ -64,12 +65,14 @@ def main():
             else:
                 outs[o] = str(out[o])
 
-
     output=labels+"\n"
     for out in sorted(outs.keys()):
         output+=out+"\t"+outs[out]+"\n"
-    fhw=args.o
+    fhw=open(args.o+".txt","w")
     fhw.write(output)
     fhw.close()
+
+    cmd=["Rscript", os.path.dirname(os.path.abspath(__file__))+"/list_reads.r", args.o, str(args.s)]
+    subprocess.call(cmd)
     
 if __name__ == '__main__': main()
