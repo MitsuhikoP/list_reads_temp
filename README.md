@@ -19,3 +19,5 @@ Put list_reads.r on the same directory with list_reads.py
 
 `-s float` file size of output_root.pdf. Default is 7. When you use many samples and see sample name, overlap of sample names are  avoided by large size PDF (but same font size).
 
+Extention of your files in dirs should be `.fastq`, `.fq`, `.fastq.gz`, `.fz.gz`, `.fasta`, `.fa`, `.fasta.gz`, or `.fa.gz`, and list_reads.py automatically discriminated between fasta and fastq.
+
