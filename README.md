@@ -22,3 +22,6 @@ Put list_reads.r on the same directory with list_reads.py
 Extention of your files in dirs should be `.fastq`, `.fq`, `.fastq.gz`, `.fz.gz`, `.fasta`, `.fa`, `.fasta.gz`, or `.fa.gz`, and list_reads.py automatically discriminated between fasta and fastq.
 
 Red horizontal line indicate 10,000 reads. I think that samples less than this threshold are removed from MIG-seq analysis.
+
+## Change Log
+|20191017 |Don't count Undetermined and PhiX.

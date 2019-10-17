@@ -26,7 +26,8 @@ def main():
         for file in sorted(files):
             smpl=file.split(".")[0]
             smpl=re.split("_S\d+_L001_R[12]_001", smpl)[0]
-            
+            if smpl == "Undetermined" or smpl == "PhiX":
+                continue
             faq=""
             ftype=""
             if file.endswith(".fastq.gz") or file.endswith(".fq.gz"):
