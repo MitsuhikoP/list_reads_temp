@@ -62,9 +62,11 @@ def main():
 
         for o in out:
             if smpl in outs:
-                outs[o] += "\t" + str(out[o])
+#                outs[o] += "\t" + str(out[o])
+                outs[smpl] += "\t" + str(out[smpl])
             else:
-                outs[o] = str(out[o])
+#                outs[o] = str(out[o])
+                outs[smpl] = str(out[smpl])
 
     output=labels+"\n"
     for out in sorted(outs.keys()):
