@@ -59,7 +59,7 @@ def main():
                 out[smpl] += ls
             else:
                 out[smpl] = ls
-
+        print("smpl=",smpl)
         for o in out:
             if smpl in outs:
 #                outs[o] += "\t" + str(out[o])
