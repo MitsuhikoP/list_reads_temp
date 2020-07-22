@@ -42,6 +42,9 @@ def main():
             elif file.endswith(".fasta"):
                 faq = open(dir+"/"+file,"r")
                 ftype="fasta"
+            else:   
+                print(file, "is NOT fasta/fastq file. The extension should be fastq/fastq.gz/fq/fq.gz/fastq/fasta.gz")
+                sys.exit(1)
             faqs={}
             ID=""
             if ftype=="fastq":
